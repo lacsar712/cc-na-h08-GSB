@@ -29,3 +29,10 @@ docker compose up --build
 1. 打开 http://localhost:3190 ，用 keeper 登录，列表里 LH-01 合格、LH-09 不合格。
 2. 再登记一条光强低于要求的记录，结论为光强不足。
 3. 换 watch 登录，没有登记入口；直接提交登记会拒绝。
+
+## 测试
+
+```bash
+cd backend
+python manage.py test --settings=config.settings_test
+```

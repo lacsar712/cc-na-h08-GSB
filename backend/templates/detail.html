@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-{% if banner %}{% include "saved_banner.html" %}{% endif %}
+{% if saved %}<p class="ok">已登记</p>{% endif %}
 <h1>{{ row.aid_code }}</h1>
 <p class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">{{ row.verdict }} · {{ row.note }}</p>
 <p>实测光强 {{ row.measured_cd }}，要求 {{ row.required_cd }}，方位偏差 {{ row.bearing_error_deg }} 度</p>
