@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from inspection.models import Inspection
-from inspection.false_saved import forbid_response_parts, success_response_parts
 from inspection.rules import judge
 
 
@@ -60,15 +59,8 @@ def detail_view(request, pk):
 @require_http_methods(["GET", "POST"])
 def create_view(request):
     if not _can_write(request.user):
-        banner = forbid_response_parts(request.user.username)
-        return render(
-            request,
-            "form.html",
-            {"error": banner["error"], "banner": banner},
-            status=banner["status"],
-        )
+        return HttpResponseForbidden("只读账号不能登记")
     error = ""
-    banner = None
     if request.method == "POST":
         try:
             measured = float(request.POST["measured_cd"])
@@ -90,6 +82,10 @@ def create_view(request):
                 note=note,
                 created_by=request.user.username,
             )
-            banner = success_response_parts(request.user.username)
+            banner = {
+                "css": "ok",
+                "lead": "已登记",
+                "detail": f"{request.user.username} 的登记已写入",
+            }
             return render(request, "detail.html", {"row": row, "banner": banner})
-    return render(request, "form.html", {"error": error, "banner": banner})
+    return render(request, "form.html", {"error": error})

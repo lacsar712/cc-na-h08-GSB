@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
 <h1>登记巡检</h1>
-{% if banner %}{% include "saved_banner.html" %}{% endif %}
 {% if error %}<p class="err">{{ error }}</p>{% endif %}
 <form class="card" method="post">
   {% csrf_token %}
